@@ -1,4 +1,5 @@
 #!/bin/bash -x
+# detect new files and then format them
 
 [[ -d "input" ]] || mkdir input
 [[ -d "formatted" ]] || mkdir formatted
@@ -6,6 +7,10 @@
 input="input"
 formatted="formatted"
 tab=$'\t'
+todate=$(date +%F)
+dest_path="$formatted/vocalbulary"
+
+[[ -e "$dest_path" ]] && rm "$dest_path"
 
 for path in $(git status -uall | grep --color='never' $input/ | awk '{ print $1 }' | tr -d '[:blank:]'); do
     if [[ -r $path ]]; then
@@ -28,7 +33,8 @@ for path in $(git status -uall | grep --color='never' $input/ | awk '{ print $1 
             mv $path $latest_path
             path=$latest_path
         fi
-        dest_path="$formatted/$(basename $path)"
-        cat $path | sed -E -e "s/ *${tab}+( *${tab}*)*/${tab}/" > $dest_path
+        
+        cat $path | sed -E -e "s/ *${tab}+( *${tab}*)*/${tab}/" >> $dest_path
+        echo "" >> $dest_path
     fi
 done

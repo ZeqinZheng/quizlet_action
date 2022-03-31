@@ -5,7 +5,7 @@ This is a practice of software engineering.
 ## Requirements
 
 - I copy words to a new file with arbitary name every day in input folder.
-  - detect new file by created date.
+- push the words to quizlet.
 
 ## TODO
 
@@ -17,24 +17,14 @@ This is a practice of software engineering.
 
 - send warning email if push failed
 - detect latest file and change the name of the file to last modified date(allow duplicate with suffix number)
-  - git status -uall | grep input | awk '{ print $1 }' | tr -d '[:blank:]'
-  - 
-- change filename to today's date
-- validate input
-  - at least two columns
 - formatted input file
-  - trim left side and right side
-  - split by blank
-  - join first element and rest elements by tab
-- push output to quizlet
-  - get cookies
-  - get cs-token
+- push output to quizlet using puppeteer daily
+  - concat formatted output and then output to formatted directory
+  - puppeteer read the formatted file and push words to quizlet
 
 ## Unit Test
 
-- consecutive tabs and spaces
-- empty file
-- incomplete line
+- TBD
 
 ## Logging
 
