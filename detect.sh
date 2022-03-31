@@ -6,6 +6,7 @@
 
 input="input"
 formatted="formatted"
+backup="backup"
 tab=$'\t'
 todate=$(date +%F)
 dest_path="$formatted/vocalbulary"
@@ -38,3 +39,18 @@ for path in $(git status -uall | grep --color='never' $input/ | awk '{ print $1 
         echo "" >> $dest_path
     fi
 done
+
+if [[ -r $dest_path ]]; then
+    backup_path="$backup/$todate"
+    suffix=1
+    while [[ -e "${backup_path}_${suffix}" ]]; do
+        ((suffix++))
+    done
+    if [ -e "$backup_path" ]; then
+        backup_path="$backup/${todate}_${suffix}"
+    fi
+    cp $dest_path $backup_path
+    # git add .
+    # git commit -m "bot: update vocabulary on $todate"
+    # git push master
+fi

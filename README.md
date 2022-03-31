@@ -18,9 +18,11 @@ This is a practice of software engineering.
 - send warning email if push failed
 - detect latest file and change the name of the file to last modified date(allow duplicate with suffix number)
 - formatted input file
-- push output to quizlet using puppeteer daily
+- push output to quizlet using puppeteer daily using Github Workflow
   - concat formatted output and then output to formatted directory
   - puppeteer read the formatted file and push words to quizlet
+- on failed case
+  - retry using backup file on the date
 
 ## Unit Test
 
