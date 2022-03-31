@@ -11,15 +11,20 @@ for path in $(git status -uall | grep --color='never' $input/ | awk '{ print $1 
     if [[ -r $path ]]; then
         date=$(ls -lD %F $path | awk '{ print $6 }' )
         existed=$(ls -l $input | grep $date | wc -l | awk '{ print $1 }')
-        if [ $existed -eq 0 ]; then
-            mv $path input/$date
+        if [ $path == "${input}/${date}" ]; then
+            :
+        elif [[ $path =~ $input/${date}_([0-9])+ ]]; then
+            :
+        elif [ $existed -eq 0 ]; then
+            mv $path "$input/$date"
             path="$input/$date"
         else
-            # ensure no duplicate filename
-            while [[ -e "$input/${date}_${existed}" ]]; do
-                existed=$((existed+1))
+            # avoid duplicate filename
+            suffix=1
+            while [[ -e "$input/${date}_${suffix}" ]]; do
+                ((suffix++))
             done
-            latest_path="$input/${date}_${existed}"
+            latest_path="$input/${date}_${suffix}"
             mv $path $latest_path
             path=$latest_path
         fi
