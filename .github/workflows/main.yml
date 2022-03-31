@@ -17,7 +17,8 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      - name: echo username
+      - uses: actions/checkout@v2
+      - name: start script
         env:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
