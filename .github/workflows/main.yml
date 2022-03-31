@@ -24,3 +24,4 @@ jobs:
           FILEPATH: 'formatted/vocalbulary'
         run: |
           echo "$FILEPATH"
+          node request.mjs
