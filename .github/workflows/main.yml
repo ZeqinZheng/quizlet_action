@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: echo username
         env:
-          username: ${{ secrets.USERNAME }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          FILEPATH: 'formatted/vocalbulary'
         run: |
-          echo "$username"
+          echo "$FILEPATH"

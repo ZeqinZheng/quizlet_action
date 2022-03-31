@@ -1,7 +1,11 @@
-const puppeteer = require('puppeteer-extra');
-const env = require('process').env;
-const assert = require('assert');
-puppeteer.use(require('puppeteer-extra-plugin-stealth')());
+import fetch from 'node-fetch';
+import puppeteer from 'puppeteer-extra';
+import { env } from 'process';
+import assert from 'assert';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import fs from 'fs';
+
+puppeteer.use(StealthPlugin());
 
 const ent_login = '#TopNavigationReactTarget > header > div > div.TopNavigation-contentRight > div.SiteNavLoginSection-loginButton > button > span';
 const username = '#username';
@@ -12,13 +16,13 @@ const redir_url = 'https://quizlet.com/latest';
 const edit_studyset = 'https://quizlet.com/683855692/edit#addRow';
 const entry_import = '#SetPageTarget > div > div.CreateSetHeader > div:nth-child(3) > div > button';
 const text_area = '#SetPageTarget > div > div.ImportTerms.is-showing > div.ImportTerms-import > div > form > textarea';
-const btn_import = '#SetPageTarget > div > div.ImportTerms.is-showing > div.ImportTerms-import > div > form > div.ImportTerms-importButtonWrap > button';
+const btn_import = '#SetPageTarget > div > div.ImportTerms.is-showing > div.ImportTerms-import > div > form > div.ImportTerms-importButtonWrap > button:not([disabled])';
 const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
 
 (async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-
+  page.setDefaultTimeout(10000);
   // login
   await page.goto(host);
   await page.click(ent_login);
@@ -34,14 +38,22 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
   await page.goto(edit_studyset, {waitUntil: "load"});
   await page.screenshot({ path: 'edit_page.png' });
   await page.click(entry_import);
-  await page.waitForSelector(btn_import);
+  await page.waitForSelector(text_area);
 
   // post data
-  await page.type(text_area, 'hello\tworld');
-  await page.waitForSelector(btn_import+":enabled");
-  await page.click(btn_import);
-  const response = await page.waitForResponse(request_url);
-  assert.equal(response.status(), 200);
-  await page.screenshot({ path: 'quizlet.png' });
-  await browser.close();
+  fs.readFile(env.FILEPATH, { encoding: 'utf-8' }, async (err, data) => {
+    if(err) {
+      throw err;
+    } else {
+      await page.type(text_area, data);
+      await page.waitForTimeout(1000);
+      await page.waitForSelector(btn_import);
+      await page.click(btn_import);
+      await page.screenshot({ path: 'after_post.png' });
+      const response = await page.waitForResponse(request_url);
+      assert.equal(response.status(), 200);
+      await page.screenshot({ path: 'quizlet.png' });
+      await browser.close();
+    }
+  });
 })();

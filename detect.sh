@@ -9,7 +9,7 @@ formatted="formatted"
 backup="backup"
 tab=$'\t'
 todate=$(date +%F)
-dest_path="$formatted/vocalbulary"
+dest_path="$formatted/vocabulary"
 
 [[ -e "$dest_path" ]] && rm "$dest_path"
 
@@ -34,8 +34,7 @@ for path in $(git status -uall | grep --color='never' $input/ | awk '{ print $1 
             mv $path $latest_path
             path=$latest_path
         fi
-        
-        cat $path | sed -E -e "s/ *${tab}+( *${tab}*)*/${tab}/" >> $dest_path
+        cat $path | tr '[:upper:]' '[:lower:]' | sed -E -e "s/ *${tab}+( *${tab}*)*/${tab}/" >> $dest_path
         echo "" >> $dest_path
     fi
 done
