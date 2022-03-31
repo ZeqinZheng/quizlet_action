@@ -1,0 +1,24 @@
+name: quizlet_push
+on:
+  push:
+    path:
+      - 'formatted/vocalbulary'
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-node@v2
+          with:
+            node-version: '14'
+        - run: npm install
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo username
+        env:
+          username: ${{ secrets.USERNAME }}
+        run: |
+          echo "$username"
