@@ -2,7 +2,7 @@ name: quizlet_push
 on:
   push:
     path:
-      - 'formatted/vocalbulary'
+      - 'formatted/*'
 
 jobs:
   setup:
