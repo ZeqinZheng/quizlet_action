@@ -5,19 +5,13 @@ on:
       - 'formatted/*'
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-node@v2
-          with:
-            node-version: '14'
-        - run: npm install
   test:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+          with:
+            node-version: '14'
       - name: start script
         env:
           USERNAME: ${{ secrets.USERNAME }}
@@ -25,4 +19,5 @@ jobs:
           FILEPATH: 'formatted/vocalbulary'
         run: |
           echo "$FILEPATH"
+          npm install
           node request.js
