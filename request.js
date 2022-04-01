@@ -16,7 +16,7 @@ const redir_url = 'https://quizlet.com/latest';
 const edit_studyset = 'https://quizlet.com/683855692/edit#addRow';
 const entry_import = '#SetPageTarget > div > div.CreateSetHeader > div:nth-child(3) > div > button';
 const text_area = '#SetPageTarget > div > div.ImportTerms.is-showing > div.ImportTerms-import > div > form > textarea';
-const btn_import = '#SetPageTarget > div > div.ImportTerms.is-showing > div.ImportTerms-import > div > form > div.ImportTerms-importButtonWrap > button:not([disabled])';
+const btn_import = '#SetPageTarget > div > div.ImportTerms.is-showing > div.ImportTerms-import > div > form > div.ImportTerms-importButtonWrap > button';
 const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
 
 (async () => {
@@ -41,7 +41,8 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
   await page.screenshot({ path: 'edit_page.png' });
   await Promise.all([
     page.waitForSelector(text_area),
-    page.click(entry_import)
+    page.click(entry_import),
+    page.waitForSelector(btn_import)
   ]);
 
   // post data
@@ -52,11 +53,9 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
       try {
         await page.type(text_area, data);
         await page.waitForTimeout(1000);
-        await page.waitForSelector(btn_import);
+        await page.waitForSelector(btn_import+":not([disabled])");
         await page.click(btn_import);
       } catch(e) {
-        const btn = page.$(btn_import);
-        console.log(btn.type);
         throw e
       }
       const response = await page.waitForResponse(request_url);
