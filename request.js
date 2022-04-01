@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import puppeteer from 'puppeteer-extra';
 import { env } from 'process';
 import assert from 'assert';
