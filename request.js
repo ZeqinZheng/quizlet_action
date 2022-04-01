@@ -24,21 +24,25 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
   // login
-  await page.goto(host);
+  await page.goto(host, {waitUntil: "load"});
   await page.click(ent_login);
   await page.screenshot({ path: 'login_page.png' });
   await page.type(username, env.USERNAME);
   await page.type(password, env.PASSWORD);
-  await page.click(btn_login);
-  await page.waitForNavigation({waitUntil: 'networkidle2'});
+  await Promise.all([
+    page.click(btn_login),
+    page.waitForNavigation()
+  ]);
   await page.screenshot({ path: 'after_login.png' });
   assert(page.url(), redir_url);
 
   // enter edit page
   await page.goto(edit_studyset, {waitUntil: "load"});
   await page.screenshot({ path: 'edit_page.png' });
-  await page.click(entry_import);
-  await page.waitForSelector(text_area);
+  await Promise.all([
+    page.waitForSelector(text_area),
+    page.click(entry_import)
+  ]);
 
   // post data
   fs.readFile(env.FILEPATH, { encoding: 'utf-8' }, async (err, data) => {
@@ -49,10 +53,9 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
       await page.waitForTimeout(1000);
       await page.waitForSelector(btn_import);
       await page.click(btn_import);
-      await page.screenshot({ path: 'after_post.png' });
       const response = await page.waitForResponse(request_url);
       assert.equal(response.status(), 200);
-      await page.screenshot({ path: 'quizlet.png' });
+      await page.screenshot({ path: 'after_post.png' });
       await browser.close();
     }
   });
