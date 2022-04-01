@@ -54,7 +54,7 @@ if [[ ${#targets[@]} -ge 1 && -r $dest_path ]]; then
         backup_path="$backup/${todate}_${suffix}"
     fi
     cp $dest_path $backup_path
-    # git add .
-    # git commit -m "bot: update vocabulary on $todate"
-    # git push master
+    git add .
+    git commit -m "bot: update vocabulary on $todate"
+    git push master
 fi
