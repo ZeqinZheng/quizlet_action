@@ -17,7 +17,7 @@ jobs:
         env:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
-          FILEPATH: 'formatted/vocalbulary'
+          FILEPATH: 'formatted/vocabulary'
         run: |
           echo "$FILEPATH"
           npm install
