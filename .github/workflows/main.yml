@@ -1,5 +1,8 @@
 name: quizlet_push
 on:
+  workflow_dispatch:
+    branches:
+      - master
   push:
     paths:
       - 'formatted/*'
