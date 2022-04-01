@@ -49,9 +49,9 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
     if(err) {
       throw err;
     } else {
-      await page.type(text_area, data);
-      await page.waitForTimeout(1000);
       try {
+        await page.type(text_area, data);
+        await page.waitForTimeout(1000);
         await page.waitForSelector(btn_import);
         await page.click(btn_import);
       } catch(e) {
