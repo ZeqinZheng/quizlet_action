@@ -1,0 +1,9 @@
+name: 'Containerized'
+
+runs:
+  using: 'docker'
+  env:
+    USERNAME: ${{ secrets.USERNAME }}
+    PASSWORD: ${{ secrets.PASSWORD }}
+    FILEPATH: 'formatted/vocabulary'
+  image: 'Dockerfile'

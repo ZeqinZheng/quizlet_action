@@ -13,11 +13,4 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - name: containerized
-        runs:
-          using: 'docker'
-          env:
-            USERNAME: ${{ secrets.USERNAME }}
-            PASSWORD: ${{ secrets.PASSWORD }}
-            FILEPATH: 'formatted/vocabulary'
-          image: 'Dockerfile'
+      - uses: ./.github/actions/containerized
