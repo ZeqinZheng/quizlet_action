@@ -31,7 +31,7 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
   await page.type(password, env.PASSWORD);
   await Promise.all([
     page.keyboard.press('Enter'),
-    page.waitForNavigation()
+    page.waitForNavigation({waitUntil: 'networkidle2'})
   ]);
   await page.screenshot({ path: 'after_login.png' });
   assert(page.url(), redir_url);
