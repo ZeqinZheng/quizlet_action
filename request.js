@@ -30,7 +30,7 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
   await page.type(username, env.USERNAME);
   await page.type(password, env.PASSWORD);
   await Promise.all([
-    page.click(btn_login),
+    page.keyboard.press('Enter'),
     page.waitForNavigation()
   ]);
   await page.screenshot({ path: 'after_login.png' });
