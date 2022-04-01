@@ -1,9 +1,23 @@
 name: 'Containerized'
 
+inputs:
+  USERNAME:
+    description: 'Your Quizlet username'
+    type: string
+    required: true
+  PASSWORD:
+    description: 'Your Quizlet password'
+    type: string
+    required: true
+  FILEPATH:
+    description: 'The path to the file to upload'
+    type: string
+    required: true
+
 runs:
   using: 'docker'
-  env:
-    USERNAME: ${{ secrets.USERNAME }}
-    PASSWORD: ${{ secrets.PASSWORD }}
-    FILEPATH: 'formatted/vocabulary'
   image: 'Dockerfile'
+  env:
+    USERNAME: ${{ inputs.USERNAME }}
+    PASSWORD: ${{ inputs.PASSWORD }}
+    FILEPATH: ${{ inputs.FILEPATH }}
