@@ -56,5 +56,5 @@ if [[ ${#targets[@]} -ge 1 && -r $dest_path ]]; then
     cp $dest_path $backup_path
     git add .
     git commit -m "bot: update vocabulary on $todate"
-    git push master
+    git push
 fi
