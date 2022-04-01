@@ -20,7 +20,7 @@ const btn_import = '#SetPageTarget > div > div.ImportTerms.is-showing > div.Impo
 const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
 
 (async () => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({args: ['--no-sandbox']});
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
   // login

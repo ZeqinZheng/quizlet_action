@@ -1,0 +1,7 @@
+*.png
+tmp
+*.md
+archive
+.vscode
+node_modules
+.DS_Store
