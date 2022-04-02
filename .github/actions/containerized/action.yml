@@ -21,3 +21,4 @@ runs:
     USERNAME: ${{ inputs.USERNAME }}
     PASSWORD: ${{ inputs.PASSWORD }}
     FILEPATH: ${{ inputs.FILEPATH }}
+    LOG: '/log/'

@@ -133,3 +133,5 @@ dmypy.json
 node_modules
 archive
 *.png
+exec_docker.sh
+volume
