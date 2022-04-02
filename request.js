@@ -57,6 +57,7 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
         // await page.waitForSelector(btn_import+":not([disabled])");
         await page.click(btn_import);
       } catch(e) {
+        page.waitForSelector(text_area);
         throw e
       }
       const response = await page.waitForResponse(request_url);
