@@ -21,4 +21,4 @@ runs:
     USERNAME: ${{ inputs.USERNAME }}
     PASSWORD: ${{ inputs.PASSWORD }}
     FILEPATH: ${{ inputs.FILEPATH }}
-    LOG: '/log/'
+    LOG: '/home/runner/work/quizlet_action/quizlet_action/'
