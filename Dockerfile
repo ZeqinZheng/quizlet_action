@@ -17,4 +17,5 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 COPY . /app
 WORKDIR /app
 RUN yarn install
+RUN ls node_module | grep fetch
 CMD ["node", "request.js"]
