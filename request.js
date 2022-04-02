@@ -37,13 +37,9 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
   assert(page.url(), redir_url);
 
   // enter edit page
-  await page.goto(edit_studyset, {waitUntil: "load"});
+  await page.goto(edit_studyset, {waitUntil: "networkidle2"});
   await page.screenshot({ path: env.LOG+'edit_page.png' });
-  await Promise.all([
-    page.waitForSelector(text_area),
-    page.click(entry_import),
-    page.waitForSelector(btn_import)
-  ]);
+  await page.click(entry_import);
   
   // post data
   fs.readFile(env.FILEPATH, { encoding: 'utf-8' }, async (err, data) => {
@@ -51,13 +47,16 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
       throw err;
     } else {
       try {
+        await Promise.all([
+          page.waitForSelector(text_area),
+          page.waitForSelector(btn_import)
+        ]);
         await page.type(text_area, data);
         await page.waitForTimeout(1000);
         await page.screenshot({ path: env.LOG+'wait_btn.png' });
         // await page.waitForSelector(btn_import+":not([disabled])");
         await page.click(btn_import);
       } catch(e) {
-        await page.waitForSelector(text_area);
         const content = await page.content();
         throw new Error(content + "\n");
       }
