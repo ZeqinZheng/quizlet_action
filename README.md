@@ -4,14 +4,13 @@ This is a practice of software engineering.
 
 ## Requirements
 
-- I copy words to a new file with arbitary name every day in input folder.
+- copy words to a new file with arbitary name every day in input folder.
 - push the words to quizlet.
 
 ## TODO
 
-- [ ] push volcabulary and definitions to quizlet
-- [ ] build CI/CD
-- [ ] write design docs including the lifecycle
+- [x] push volcabulary and definitions to quizlet
+- [x] build CI/CD
 
 ## Features
 
