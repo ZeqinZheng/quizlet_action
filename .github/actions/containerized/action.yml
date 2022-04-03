@@ -13,6 +13,10 @@ inputs:
     description: 'The path to the file to upload'
     type: string
     required: true
+  SETID:
+    description: 'Study setid'
+    type: string
+    required: true
 
 runs:
   using: 'docker'
@@ -21,4 +25,5 @@ runs:
     USERNAME: ${{ inputs.USERNAME }}
     PASSWORD: ${{ inputs.PASSWORD }}
     FILEPATH: ${{ inputs.FILEPATH }}
+    SETID: ${{ inputs.SETID }}
     LOG: '/home/runner/work/quizlet_action/quizlet_action/'
