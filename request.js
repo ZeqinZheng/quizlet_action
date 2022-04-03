@@ -55,7 +55,8 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
         await page.screenshot({ path: env.LOG+'wait_btn.png' });
         await page.click(btn_import);
       } catch(e) {
-        throw e;
+        const page_content = await page.content();
+        throw new Error(page_content);
       }
       const response = await page.waitForResponse(request_url);
       assert.equal(response.status(), 200);
