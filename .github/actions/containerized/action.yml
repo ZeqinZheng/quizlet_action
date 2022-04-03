@@ -17,6 +17,10 @@ inputs:
     description: 'Study setid'
     type: string
     required: true
+  HEADLESS:
+    description: 'launch headless browser'
+    type: boolean
+    required: true
 
 runs:
   using: 'docker'
@@ -26,4 +30,6 @@ runs:
     PASSWORD: ${{ inputs.PASSWORD }}
     FILEPATH: ${{ inputs.FILEPATH }}
     SETID: ${{ inputs.SETID }}
+    HEADLESS: ${{ inputs.HEADLESS }}
     LOG: '/home/runner/work/quizlet_action/quizlet_action/'
+    

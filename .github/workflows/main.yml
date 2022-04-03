@@ -19,3 +19,4 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
           FILEPATH: 'formatted/vocabulary'
           SETID: '683855692'
+          HEADLESS: true

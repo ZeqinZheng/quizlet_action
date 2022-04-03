@@ -20,7 +20,7 @@ const request_url = 'https://quizlet.com/webapi/3.2/terms/save?_method=PUT';
 
 
 (async () => {
-  const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-dev-shm-usage'], headless:false});
+  const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-dev-shm-usage'], headless: env.HEADLESS});
   const page = await browser.newPage();
   // login
   await page.goto(host, {waitUntil: "load"});
