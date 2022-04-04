@@ -135,3 +135,4 @@ archive
 *.png
 exec_docker.sh
 volume
+script_log
