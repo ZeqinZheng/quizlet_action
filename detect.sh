@@ -39,7 +39,8 @@ for path in "${targets[@]}"; do
             mv $path $latest_path
             path=$latest_path
         fi
-        cat $path | tr '[:upper:]' '[:lower:]' | sed -E -e "s/ *${tab}+( *${tab}*)*/${tab}/" >> $dest_path
+        cat $path | tr '[:upper:]' '[:lower:]' | sed -E -e "s/ *${tab}+( *${tab}*)*/${tab}/" | \
+        grep -vE '^$' >> $dest_path
         echo "" >> $dest_path
     fi
 done
