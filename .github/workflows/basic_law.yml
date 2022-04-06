@@ -17,6 +17,6 @@ jobs:
         with:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
-          FILEPATH: 'formatted/basic_law/basic_law'
+          FILEPATH: 'formatted/basic_law'
           SETID: '687535495'
           HEADLESS: true
