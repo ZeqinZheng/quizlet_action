@@ -95,5 +95,5 @@ for i in $(seq 0 $len); do
         [[ -r ${dest_files[$i]} ]] && backup "${dest_files[$i]}" "${backup_path[$i]}"
     fi
 done
-exit 0
+
 commit
