@@ -9,33 +9,46 @@ formatted="formatted"
 backup="backup"
 tab=$'\t'
 todate=$(date +%F)
-dest_path="$formatted/vocabulary"
+src_path=( "$input/vocabulary/" "$input/basic_law/" )
+backup_path=( "$backup/vocabulary/" "$backup/basic_law/" )
+dest_files=( "$formatted/vocabulary" "$formatted/basic_law" )
+targets=()
 
-targets=("$@")
-targets+=($(git status -uall | grep --color='never' $input/ | awk '{ print $1 }' | tr -d '[:blank:]'))
+# detect new files
+add_targets() {
+    local input="$1"
+    targets+=($(git status -uall | grep --color='never' $input/ | awk '{ print $1 }' | tr -d '[:blank:]'))
+}
 
-if [[ -e "$dest_path" && ${#targets[@]} -ge 1 ]]; then
-    rm "$dest_path"
-fi
+# rm old files
+rm_old_dest_files() {
+    local dest_file="$1"
+    [[ -f "$dest_file" ]] && rm "$dest_file"
+}
 
-for path in "${targets[@]}"; do
-    if [[ -r $path ]]; then
-        date=$(ls -lD %F $path | awk '{ print $6 }' )
-        existed=$(ls -l $input | grep $date | wc -l | awk '{ print $1 }')
-        if [ $path == "${input}/${date}" ]; then
+# format target files and output to dest_path
+# targets, input
+format() {
+    local target="$1"
+    local src_dir="$2"
+    local dest_path="$3"
+    if [[ -r $target ]]; then
+        date=$(ls -lD %F $target | awk '{ print $6 }' )
+        existed=$(ls -l $src_dir | grep $date | wc -l | awk '{ print $1 }')
+        if [ $path == "${src_dir}/${date}" ]; then
             :
-        elif [[ $path =~ $input/${date}_([0-9])+ ]]; then
+        elif [[ $path =~ ${src_dir}/${date}_([0-9])+ ]]; then
             :
         elif [ $existed -eq 0 ]; then
-            mv $path "$input/$date"
-            path="$input/$date"
+            mv $path "${src_dir}/${date}"
+            path="${src_dir}/${date}"
         else
             # avoid duplicate filename
             suffix=1
-            while [[ -e "$input/${date}_${suffix}" ]]; do
+            while [[ -e "${src_dir}/${date}_${suffix}" ]]; do
                 ((suffix++))
             done
-            latest_path="$input/${date}_${suffix}"
+            latest_path="${src_dir}/${date}_${suffix}"
             mv $path $latest_path
             path=$latest_path
         fi
@@ -43,10 +56,12 @@ for path in "${targets[@]}"; do
         grep -vE '^$' >> $dest_path
         echo "" >> $dest_path
     fi
-done
+}
 
-if [[ ${#targets[@]} -ge 1 && -r $dest_path ]]; then
-    backup_path="$backup/$todate"
+# copy new files to backup
+backup() {
+    local src_path="$1"
+    local backup_path="$2"
     suffix=1
     while [[ -e "${backup_path}_${suffix}" ]]; do
         ((suffix++))
@@ -54,8 +69,28 @@ if [[ ${#targets[@]} -ge 1 && -r $dest_path ]]; then
     if [ -e "$backup_path" ]; then
         backup_path="$backup/${todate}_${suffix}"
     fi
-    cp $dest_path $backup_path
+    cp $src_path $backup_path
+}
+
+commit() {
     git add .
     git commit -m "bot: update vocabulary on $todate"
     git push
-fi
+}
+
+len=$((${#src_path[@]}-1))
+for i in $(seq 0 $len); do
+    targets=()
+    add_targets "${src_path[$i]}"
+    if [ ${#target[@]} -eq 0 ]; then
+        continue
+    else
+        rm_old_dest_files "${dest_files[$i]}"
+        for target in "${targets[@]}"; do
+            format "$target" "${src_path[$i]}" "${dest_files[$i]}"
+        done
+        [[ -r ${dest_files[$i]} ]] && backup "${dest_files[$i]}" "${backup_path[$i]}"
+    fi
+done
+exit 0
+commit
