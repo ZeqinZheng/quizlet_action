@@ -5,7 +5,7 @@ on:
       - master
   push:
     paths:
-      - 'formatted/basic_law/*'
+      - 'formatted/basic_law'
       - 'backup/basic_law/*'
 
 jobs:
