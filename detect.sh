@@ -18,7 +18,7 @@ final_name=""
 # detect new files
 add_targets() {
     local src_path="$1"
-    targets+=($(git status -uall | grep --color='never' $src_path | awk '{ print $1 }' | tr -d '[:blank:]'))
+    targets+=($(git status -uall | grep --color='never' $src_path | awk '{ print $NF }' | tr -d '[:blank:]'))
 }
 
 # rm old files
