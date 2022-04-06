@@ -6,6 +6,7 @@ on:
   push:
     paths:
       - 'formatted/*'
+      - 'backup/vocabulary/*'
 
 jobs:
   vocalbulary_push:

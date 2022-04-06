@@ -6,6 +6,7 @@ on:
   push:
     paths:
       - 'formatted/basic_law/*'
+      - 'backup/basic_law/*'
 
 jobs:
   vocalbulary_push:
