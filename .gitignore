@@ -136,3 +136,6 @@ archive
 exec_docker.sh
 volume
 script_log
+
+# common
+*.swp
