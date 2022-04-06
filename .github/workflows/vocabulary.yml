@@ -1,4 +1,4 @@
-name: quizlet_push
+name: quizlet_vocabulary_push
 on:
   workflow_dispatch:
     branches:
@@ -6,10 +6,9 @@ on:
   push:
     paths:
       - 'formatted/*'
-      - 'backup/*'
 
 jobs:
-  test:
+  vocalbulary_push:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

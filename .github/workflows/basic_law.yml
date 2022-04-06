@@ -1,0 +1,21 @@
+name: quizlet_basic_law_push
+on:
+  workflow_dispatch:
+    branches:
+      - master
+  push:
+    paths:
+      - 'formatted/basic_law/*'
+
+jobs:
+  vocalbulary_push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/containerized
+        with:
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          FILEPATH: 'formatted/basic_law/basic_law'
+          SETID: '687535495'
+          HEADLESS: true
